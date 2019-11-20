@@ -17,6 +17,9 @@ export default new Vuex.Store({
       email: '',
       _id: ''
     },
+    user: {
+
+    },
     token: '',
     listQuestion: [],
     upVotes: 0,
@@ -39,7 +42,9 @@ export default new Vuex.Store({
       UserId: '',
       upVotes: [],
       downVotes: []
-    }
+    },
+    watchTag: [],
+    arrMyQuestion: []
   },
   mutations: {
     REGISTER (state, payload) {
@@ -132,9 +137,101 @@ export default new Vuex.Store({
     UPVOTESANSWER (state, payload) {
       state.answer.downVotes = payload.downVotes
       state.answer.upVotes = payload.upVotes
+    },
+    GETUSER (state, payload) {
+      state.user = payload
+    },
+    FILTERWATCH (state, payload) {
+      state.watchTag = payload
+    },
+    GETMYQUESTION (state, payload) {
+      state.arrMyQuestion = payload
     }
   },
   actions: {
+    getMyQuestion ({ commit }) {
+      console.log('masuk sini')
+      Axios({
+        url: `http://localhost:3000/question/myQuestion`,
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          data = data.reverse()
+          commit('GETMYQUESTION', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    filterWatch ({ commit }, payload) {
+      Axios({
+        url: `http://localhost:3000/question/tag/${payload}`,
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          data = data.reverse()
+          commit('FILTERWATCH', data)
+          router.push(`/tag/${payload}`)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    deleteTag ({ commit }, payload) {
+      Axios({
+        url: `http://localhost:3000/tag`,
+        method: 'patch',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          tag: payload
+        }
+      })
+        .then(({ data }) => {
+          this.dispatch('getUser')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    addTag ({ commit }, payload) {
+      Axios({
+        url: 'http://localhost:3000/tag',
+        method: 'post',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          tags: payload
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          this.dispatch('getUser')
+        })
+    },
+    getUser ({ commit }) {
+      Axios({
+        url: `${BASE_URL}/user`,
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          commit('GETUSER', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     upVotesAnswer ({ commit }, payload) {
       Axios({
         url: `${BASE_URL}/answer/upvote`,
@@ -207,7 +304,7 @@ export default new Vuex.Store({
         .then((result) => {
           if (result.value) {
             Axios({
-              url: `${BASE_URL}/answer/${payload}`,
+              url: `${BASE_URL}/answer/${payload.QuestionId}/${payload.id}`,
               method: 'DELETE',
               headers: {
                 token: localStorage.getItem('token')
@@ -559,6 +656,7 @@ export default new Vuex.Store({
         method: 'get'
       })
         .then(({ data }) => {
+          data = data.reverse()
           commit('SETLISTQUESTION', data)
           swal.close()
         })

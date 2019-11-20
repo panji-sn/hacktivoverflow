@@ -12,7 +12,7 @@
          <div class="clickable">
             <router-link to="/" class="btn btn-primary">Home</router-link>
             <router-link to="/register" class="btn btn-primary">Register</router-link>
-            <router-link to="/login" class="btn btn-primary">Login</router-link>
+            <router-link to="/login" class="btn btn-primary" style="margin-left:10px; margin-right:30px;">Login</router-link>
          </div>
       </nav>
   </div>
@@ -30,7 +30,7 @@ export default {
   margin: 5px;
 }
 nav {
-  background-color: rgba(23, 93, 150, 0.562);
+  background-color: #ebde6e;
   height: 68px;
   width: 100vw;
   display: flex;

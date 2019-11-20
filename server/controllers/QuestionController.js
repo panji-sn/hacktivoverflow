@@ -48,44 +48,27 @@ class QuestionController {
     }
 
     static findAllQuestion (req, res, next) {
-        let arrTemp
         Question.find()
         .populate('UserId')
         .then (result => {
-            // async function tes () {
-            //     for (let i = 0; i < result.length; i++) {
-            //         console.log('masuk', result[i]._id)
-            //         Answer.find({
-            //             QuestionId: result[i]._id
-            //         })
-            //         .then (data => {
-            //             console.log(data)
-            //             result[i].hasil = data
-            //         })
-            //     }
-            // }
-            // arrTemp = result
-            // console.log('sebelum return', arrTemp)
-            // return tes()
             res.status(200).json(result)
         })
-        // .then (data => {
-        //     // console.log(data.data)
-        //     res.status(200).json(arrTemp)
-        // })
         .catch (err => {
             next(err)
         })
     }
 
     static findAll (req, res, next) {
+        console.log(req.loggedUser.id, 'masuk sini')
         Question.find({
             UserId: req.loggedUser.id
         })
+        .populate('UserId')
         .then (result => {
             res.status(200).json(result)
         })
         .catch (err => {
+            console.log('masuk catch')
             next(err)
         })
     }
@@ -192,6 +175,21 @@ class QuestionController {
                 upVotes: temp.upVotes,
                 downVotes: temp.downVotes
             })
+        })
+        .catch (err => {
+            next(err)
+        })
+    }
+    
+    static filterWatch (req, res, next) {
+        let { tag } = req.params
+        Question.find({
+            tags: tag
+        })
+        .populate('UserId')
+        .then (result => {
+            console.log(result)
+            res.status(200).json(result)
         })
         .catch (err => {
             next(err)

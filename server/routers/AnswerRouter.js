@@ -9,7 +9,7 @@ routes.get("/:id", authentication, authorizationAnswer, AnswerController.findOne
 routes.patch("/upvote", authentication, AnswerController.upVotes)
 routes.patch("/downvote", authentication, AnswerController.downVotes)
 routes.patch("/:id", authentication, authorizationAnswer, AnswerController.updateAnswer)
-routes.delete("/:id", authentication, authorizationAnswer, AnswerController.deleteAnswer)
+routes.delete("/:QuestionId/:id", authentication, authorizationAnswer, AnswerController.deleteAnswer)
 
 
 module.exports = routes

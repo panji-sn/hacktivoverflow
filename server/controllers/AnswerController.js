@@ -55,12 +55,31 @@ class AnswerController {
     }
 
     static deleteAnswer (req, res, next) {
-        let { id } = req.params
+        let { id, QuestionId } = req.params
+        let temp
+        let arrTemp = []
         Answer.findOneAndDelete({
             _id: id
         })
+        .then (result => {
+            temp = result
+            console.log('masuk sini', id, QuestionId)
+            return Question.findById(QuestionId)
+        })
+        .then (result => {
+            for (let i = 0; i < result.answer.length; i++) {
+                if (result.answer[i] != id) arrTemp.push(result.answer[i])
+            }
+
+            return Question.findByIdAndUpdate(QuestionId, {
+                $set: {
+                    answer: arrTemp
+                }
+            }, { new: true})
+        })
         .then ((result) => {
-            res.status(200).json(result)
+            console.log('bisa disini', result)
+            res.status(200).json(temp)
         })
         .catch (err => {
             next(err)

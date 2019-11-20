@@ -5,5 +5,6 @@ const { authentication } = require("../middlewares/authentication")
 routes.get("/", authentication, TagController.findAll)
 routes.post("/", authentication, TagController.updateTag)
 routes.get("/:tag", authentication, TagController.findTag)
+routes.patch("/", authentication, TagController.deleteTag)
 
 module.exports = routes

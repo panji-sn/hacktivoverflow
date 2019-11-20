@@ -2,135 +2,135 @@
   <div>
     <NavBar class="" style="width: 100%;">
         <template v-slot:home>
-        <router-link to="/" class="btn btn-primary">Home</router-link>
+        <router-link to="/" class="btn btn-warning">Home</router-link>
         </template>
         <template v-slot:question>
-        <router-link to="/question" class="btn btn-primary">My Questions</router-link>
+        <router-link to="/myQuestion" class="btn btn-warning">My Questions</router-link>
         </template>
         <template v-slot:signout>
-        <a href="#" class="btn btn-primary" @click.prevent="signOut" id="btn-left">SignOut</a>
+        <a href="#" class="btn btn-warning" @click.prevent="signOut" id="btn-left">SignOut</a>
         </template>
     </NavBar>
-    <br>
-    <div class="container d-flex">
+    <side-nav-bar></side-nav-bar>
+    <div style="margin-left:17%; margin-right:5%;">
         <div class="col">
         <List class="card" id="questionList">
-        <template v-slot:totalVotes>
-            <div class="col sm-1 ml-1">
-            <a class="" @click.prevent="upVotes(question._id)">
-              <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <image xlink:href='https://image.flaticon.com/icons/svg/25/25649.svg' alt="symbol" height="40" width="40"/>
-              </svg>
-            </a>
-            </div>
-        </template>
-        <template v-slot:totalAnswers>
-            <div class="col sm-1 ml-1">
-            <h4>{{ question.hasil.length }}</h4>
-            <h6>Answers</h6>
-            </div>
-            <div class="col sm-1 ml-1">
-            <h4>{{ question.upVotes.length - question.downVotes.length }}</h4>
-            <h6>Votes</h6>
-            </div>
-        </template>
-        <template v-slot:totalViews>
-            <div class="col sm-1 ml-1">
-            <a @click.prevent="downVotes(question._id)">
-              <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <image xlink:href='https://image.flaticon.com/icons/svg/25/25623.svg' alt="symbol" height="40" width="40"/>
-              </svg>
-            </a>
-            </div>
-        </template>
-        <template v-slot:questionList>
-            <div class="col-6">
-              <h1>{{ question.title }}</h1>
-              <div class="row" style="align-items:center">
-              <a @click.prevent="showUpdate(question._id)">
-              <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <image xlink:href='https://www.flaticon.com/premium-icon/icons/svg/46/46395.svg' alt="symbol" height="40" width="40"/>
-              </svg>
-              </a>
-              <a @click.prevent="deleteQuestion(question._id)">
-              <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <image xlink:href='https://image.flaticon.com/icons/png/512/61/61848.png' alt="symbol" height="40" width="40"/>
-              </svg>
-              </a>
-              </div>
-              <p v-html="question.description"></p>
-              <h4>Asked by: {{ question.UserId.name }}</h4>
-            </div>
-            <div v-if="showUpdateForm">
-              <h1>Update Question</h1>
-            <button type="button" class="close" @click.prevent="closeFormUpdate">&times;</button>
-            <form @submit.prevent="updateQuestion" >
-                <label>Title</label>
-                <br>
-                <input type="text" v-model="temp.title" placeholder="Input your title answer">
-                <br>
-                <ckeditor :editor="editor" v-model="temp.description" style="heigth: 100%; width: 100%;"></ckeditor>
-                <input type="submit" class="btn btn-primary" value="Submit">
-              </form>
-            </div>
-        </template>
-        <template v-slot:answerList>
-          <div v-for="(item, index) in question.hasil" v-bind:key="index">
-            <div class="col">
-              <h1>{{ item.title }}</h1>
-              <div class="" style="align-items:center">
-                <a @click.prevent="showUpdateAnswer(item._id, index)">
-              <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <image xlink:href='https://www.flaticon.com/premium-icon/icons/svg/46/46395.svg' alt="symbol" height="40" width="40"/>
-              </svg>
-              </a>
-              <a @click.prevent="deleteAnswer(item._id)">
-              <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <image xlink:href='https://image.flaticon.com/icons/png/512/61/61848.png' alt="symbol" height="40" width="40"/>
-              </svg>
-              </a>
-              <br>
-              <a class="" @click.prevent="upVotesAnswer(item._id)">
-              <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <image xlink:href='https://image.flaticon.com/icons/svg/25/25649.svg' alt="symbol" height="40" width="40"/>
-              </svg>
-              </a>
+          <template v-slot:totalVotes>
               <div class="col sm-1 ml-1">
-                <h4>{{ item.upVotes.length - item.downVotes.length }}</h4>
-                <h6>Votes</h6>
-              </div>
-              <a @click.prevent="downVotesAnswer(item._id)">
-              <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <image xlink:href='https://image.flaticon.com/icons/svg/25/25623.svg' alt="symbol" height="40" width="40"/>
-              </svg>
+              <a class="" @click.prevent="upVotes(question._id)">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <image xlink:href='https://image.flaticon.com/icons/svg/25/25649.svg' alt="symbol" height="40" width="40"/>
+                </svg>
               </a>
               </div>
-              <p v-html="item.description"></p>
-              <h4>Answered by: {{ item.UserId.name }}</h4>
-            </div>
-          </div>
-          <div v-if="showUpdateAnswerForm">
-              <h1>Update Answer</h1>
-            <button type="button" class="close" @click.prevent="closeFormUpdateAnswer">&times;</button>
-            <form @submit.prevent="updateAnswer" >
-                <label>Title</label>
+          </template>
+          <template v-slot:totalAnswers>
+              <div class="col sm-1 ml-1">
+              <h4>{{ question.hasil.length }}</h4>
+              <h6>Answers</h6>
+              </div>
+              <div class="col sm-1 ml-1">
+              <h4>{{ question.upVotes.length - question.downVotes.length }}</h4>
+              <h6>Votes</h6>
+              </div>
+          </template>
+          <template v-slot:totalViews>
+              <div class="col sm-1 ml-1">
+              <a @click.prevent="downVotes(question._id)">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <image xlink:href='https://image.flaticon.com/icons/svg/25/25623.svg' alt="symbol" height="40" width="40"/>
+                </svg>
+              </a>
+              </div>
+          </template>
+          <template v-slot:questionList>
+              <div class="col-12">
+                <h1>{{ question.title }}</h1>
+                <div class="row" style="align-items:center">
+                <a @click.prevent="showUpdate(question._id)">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <image xlink:href='https://www.flaticon.com/premium-icon/icons/svg/46/46395.svg' alt="symbol" height="40" width="40"/>
+                </svg>
+                </a>
+                <a @click.prevent="deleteQuestion(question._id)">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <image xlink:href='https://image.flaticon.com/icons/png/512/61/61848.png' alt="symbol" height="40" width="40"/>
+                </svg>
+                </a>
+                </div>
+                <p v-html="question.description"></p>
+                <h4>Asked by: {{ question.UserId.name }}</h4>
+              </div>
+              <div v-if="showUpdateForm">
+                <h1>Update Question</h1>
+              <button type="button" class="close" @click.prevent="closeFormUpdate">&times;</button>
+              <form @submit.prevent="updateQuestion" >
+                  <label>Title</label>
+                  <br>
+                  <input type="text" v-model="temp.title" placeholder="Input your title answer">
+                  <br>
+                  <ckeditor :editor="editor" v-model="temp.description" style="heigth: 100%; width: 100%;"></ckeditor>
+                  <input type="submit" class="btn btn-warning" value="Submit">
+                </form>
+              </div>
+          </template>
+          <template v-slot:answerList>
+            <div v-for="(item, index) in question.hasil" v-bind:key="index">
+              <div class="col">
+                <h1>{{ item.title }}</h1>
+                <div style="align-items:center">
+                  <a @click.prevent="showUpdateAnswer(item._id, index)">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <image xlink:href='https://www.flaticon.com/premium-icon/icons/svg/46/46395.svg' alt="symbol" height="40" width="40"/>
+                </svg>
+                </a>
+                <a @click.prevent="deleteAnswer(item._id)">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <image xlink:href='https://image.flaticon.com/icons/png/512/61/61848.png' alt="symbol" height="40" width="40"/>
+                </svg>
+                </a>
                 <br>
-                <input type="text" v-model="answer.title" placeholder="Input your title answer">
-                <br>
-                <ckeditor :editor="editor" v-model="answer.description" style="heigth: 100%; width: 100%;"></ckeditor>
-                <input type="submit" class="btn btn-primary" value="Submit">
-              </form>
+                <a class="" @click.prevent="upVotesAnswer(item._id)">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <image xlink:href='https://image.flaticon.com/icons/svg/25/25649.svg' alt="symbol" height="40" width="40"/>
+                </svg>
+                </a>
+                <div class="col sm-1 ml-1">
+                  <h4>{{ item.upVotes.length - item.downVotes.length }}</h4>
+                  <h6>Votes</h6>
+                </div>
+                <a @click.prevent="downVotesAnswer(item._id)">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <image xlink:href='https://image.flaticon.com/icons/svg/25/25623.svg' alt="symbol" height="40" width="40"/>
+                </svg>
+                </a>
+                </div>
+                <p v-html="item.description"></p>
+                <h4>Answered by: {{ item.UserId.name }}</h4>
+              </div>
             </div>
-        </template>
+            <div v-if="showUpdateAnswerForm">
+                <h1>Update Answer</h1>
+              <button type="button" class="close" @click.prevent="closeFormUpdateAnswer">&times;</button>
+              <form @submit.prevent="updateAnswer" >
+                  <label>Title</label>
+                  <br>
+                  <input type="text" v-model="answer.title" placeholder="Input your title answer">
+                  <br>
+                  <ckeditor :editor="editor" v-model="answer.description" style="heigth: 100%; width: 100%;"></ckeditor>
+                  <input type="submit" class="btn btn-warning" value="Submit">
+                </form>
+              </div>
+          </template>
         </List>
 
-        <form @submit.prevent="createAnswer(question._id)">
+        <form @submit.prevent="createAnswer(question._id)" style="margin-left:10px;">
           <label>Title</label>
           <br>
           <input type="text" v-model="title" placeholder="Input your title answer">
           <br>
           <ckeditor :editor="editor" v-model="editorData" style="heigth: 400px"></ckeditor>
-          <input type="submit" class="btn btn-primary" value="Submit">
+          <input type="submit" class="btn btn-warning" value="Submit">
         </form>
     </div>
     </div>
@@ -140,6 +140,7 @@
 <script>
 import NavBar from '../components/NavBar'
 import List from '../components/List'
+import SideNavBar from '../components/SideNavBar'
 import router from '../router'
 import { mapState } from 'vuex'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
@@ -147,7 +148,8 @@ export default {
   name: 'detailquestion',
   components: {
     NavBar,
-    List
+    List,
+    SideNavBar
   },
   data: () => {
     return {
@@ -189,7 +191,11 @@ export default {
       this.$store.dispatch('upVotesAnswer', payload)
     },
     deleteAnswer (id) {
-      this.$store.dispatch('deleteAnswer', id)
+      let payload = {
+        id: id,
+        QuestionId: this.$route.params.id
+      }
+      this.$store.dispatch('deleteAnswer', payload)
     },
     updateAnswer () {
       let payload = {
@@ -198,6 +204,7 @@ export default {
         description: this.answer.description
       }
       this.$store.dispatch('updateAnswer', payload)
+      this.showUpdateAnswerForm = false
     },
     closeFormUpdateAnswer () {
       this.showUpdateAnswerForm = false
@@ -218,6 +225,7 @@ export default {
         description: this.temp.description
       }
       this.$store.dispatch('updateQuestion', payload)
+      this.showUpdateForm = false
     },
     showUpdate (number) {
       this._id = number

@@ -1,13 +1,14 @@
 <template>
-      <div id="list-container">
-        <div class="col sm-2 ml-2">
-            <div class="row">
+      <div id="">
+        <div class="row sm-2 ml-2">
+            <div class="col-2">
                 <slot name="totalVotes"></slot>
                 <slot name="totalAnswers"></slot>
                 <slot name="totalViews"></slot>
-                <slot name="questionList"></slot>
+                <slot name="voteAnswer"></slot>
             </div>
-            <div class="row">
+            <div class="col-10">
+                <slot name="questionList"></slot>
                 <slot name="questionList2"></slot>
                 <slot name="answerList"></slot>
             </div>
@@ -22,7 +23,5 @@ export default {
 </script>
 
 <style>
-#list-container {
-    max-width: 720px;
-}
+
 </style>

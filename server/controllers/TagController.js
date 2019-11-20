@@ -52,6 +52,26 @@ class TagController {
         })
     }
 
+    static deleteTag (req, res, next) {
+        let { tag } = req.body
+        let arrTag = []
+        User.findById(req.loggedUser.id)
+        .then (result => {
+            for (let i = 0; i < result.tags.length; i++ ) {
+                if (result.tags[i] != tag) arrTag.push(result.tags[i])
+            }
+            return User.findByIdAndUpdate(req.loggedUser.id, { $set: {
+                tags: arrTag
+            }}, { new: true})
+        })
+        .then (result => {
+            res.status(200).json(result)
+        })
+        .catch (err => {
+            next(err)
+        })
+    }
+
     static findTag (req, res, next) {
         let { tag } = req.params
         Tag.find()

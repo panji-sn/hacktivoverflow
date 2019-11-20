@@ -33,7 +33,7 @@ export default {
   margin: 5px;
 }
 nav {
-  background-color: rgba(23, 93, 150, 0.562);
+  background-color: #ebde6e;
   height: 68px;
   width: 100vw;
   display: flex;

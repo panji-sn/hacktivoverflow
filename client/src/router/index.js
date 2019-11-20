@@ -5,6 +5,9 @@ import Question from '../views/Question.vue'
 import Login from '../views/Login'
 import Register from '../views/Register'
 import DetailQuestion from '../views/DetailQuestion'
+import CreateQuestion from '../views/CreateQuestion'
+import WatchTag from '../views/WatchTag'
+import MyQuestion from '../views/MyQuestion'
 
 Vue.use(Router)
 
@@ -13,9 +16,24 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/myQuestion',
+      name: 'myQuestion',
+      component: MyQuestion
+    },
+    {
+      path: '/createQuestion',
+      name: 'createQuestion',
+      component: CreateQuestion
+    },
+    {
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/tag/:tag',
+      name: 'tag',
+      component: WatchTag
     },
     {
       path: '/login',
