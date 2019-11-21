@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import swal from 'sweetalert2'
 import Axios from 'axios'
 import router from '../router'
-import cron from 'cron'
 
 var BASE_URL = 'http://localhost:3000'
 
@@ -149,10 +148,27 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getMyQuestion ({ commit }) {
-      console.log('masuk sini')
+    searchForm ({ commit }, payload) {
+      // console.log(payload)
       Axios({
-        url: `http://localhost:3000/question/myQuestion`,
+        url: `${BASE_URL}/question/title/${payload}`,
+        method: 'get',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          data = data.reverse()
+          commit('SETLISTQUESTION', data)
+          router.push('/question')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getMyQuestion ({ commit }) {
+      Axios({
+        url: `${BASE_URL}/question/myQuestion`,
         method: 'get',
         headers: {
           token: localStorage.getItem('token')
@@ -168,7 +184,7 @@ export default new Vuex.Store({
     },
     filterWatch ({ commit }, payload) {
       Axios({
-        url: `http://localhost:3000/question/tag/${payload}`,
+        url: `${BASE_URL}/question/tag/${payload}`,
         method: 'get',
         headers: {
           token: localStorage.getItem('token')
@@ -185,7 +201,7 @@ export default new Vuex.Store({
     },
     deleteTag ({ commit }, payload) {
       Axios({
-        url: `http://localhost:3000/tag`,
+        url: `${BASE_URL}/tag`,
         method: 'patch',
         headers: {
           token: localStorage.getItem('token')
@@ -203,7 +219,7 @@ export default new Vuex.Store({
     },
     addTag ({ commit }, payload) {
       Axios({
-        url: 'http://localhost:3000/tag',
+        url: `${BASE_URL}/tag`,
         method: 'post',
         headers: {
           token: localStorage.getItem('token')
@@ -250,7 +266,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Creating answer Failed ',
             text: err.response.data,
             showConfirmButton: false,
@@ -276,7 +292,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Creating answer Failed ',
             text: err.response.data,
             showConfirmButton: false,
@@ -295,7 +311,7 @@ export default new Vuex.Store({
       swalWithBootstrapButtons.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
-        type: 'warning',
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
@@ -322,7 +338,7 @@ export default new Vuex.Store({
               })
               .catch(() => {
                 swal.fire({
-                  type: 'error',
+                  icon: 'error',
                   title: "You're unauthorize to delete this answer",
                   showConfirmButton: false,
                   timer: 2000
@@ -342,7 +358,7 @@ export default new Vuex.Store({
         .catch(() => {
           swal.close()
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Failed deleting question',
             showConfirmButton: false,
             timer: 2000
@@ -371,7 +387,7 @@ export default new Vuex.Store({
           swal.close()
           swal.fire({
             title: 'Success update',
-            type: 'success',
+            icon: 'success',
             timer: 2000,
             showConfirmButton: false
           })
@@ -379,7 +395,7 @@ export default new Vuex.Store({
         })
         .catch(() => {
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: "You're unauthorize to update this answer",
             showConfirmButton: false,
             timer: 2000
@@ -408,7 +424,7 @@ export default new Vuex.Store({
           swal.close()
           swal.fire({
             title: 'Success update',
-            type: 'success',
+            icon: 'success',
             timer: 2000,
             showConfirmButton: false
           })
@@ -416,7 +432,7 @@ export default new Vuex.Store({
         })
         .catch(() => {
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: "You're unauthorize to update this question",
             showConfirmButton: false,
             timer: 2000
@@ -434,7 +450,7 @@ export default new Vuex.Store({
       swalWithBootstrapButtons.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
-        type: 'warning',
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
@@ -461,7 +477,7 @@ export default new Vuex.Store({
               })
               .catch(() => {
                 swal.fire({
-                  type: 'error',
+                  icon: 'error',
                   title: "You're unauthorize to delete this question",
                   showConfirmButton: false,
                   timer: 2000
@@ -481,7 +497,7 @@ export default new Vuex.Store({
         .catch(() => {
           swal.close()
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Failed deleting question',
             showConfirmButton: false,
             timer: 2000
@@ -505,7 +521,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Creating answer Failed ',
             text: err.response.data,
             showConfirmButton: false,
@@ -530,7 +546,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Creating answer Failed ',
             text: err.response.data,
             showConfirmButton: false,
@@ -560,7 +576,7 @@ export default new Vuex.Store({
           commit('CREATEANSWER', data)
           swal.close()
           swal.fire({
-            type: 'success',
+            icon: 'success',
             title: 'success creating answer',
             showConfirmButton: false,
             timer: 2000
@@ -570,7 +586,7 @@ export default new Vuex.Store({
         .catch(err => {
           swal.close()
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Creating answer Failed ',
             text: err.response.data,
             showConfirmButton: false,
@@ -580,7 +596,7 @@ export default new Vuex.Store({
     },
     questionDetail ({ commit }, payload) {
       swal.fire({
-        title: 'Fetching Data',
+        title: 'loading Data',
         showConfirmButton: false,
         allowOutsideClick: () => swal.isLoading()
       })
@@ -598,7 +614,7 @@ export default new Vuex.Store({
         .catch(() => {
           swal.close()
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Need to login first',
             timer: 2000,
             showConfirmButton: false
@@ -628,7 +644,7 @@ export default new Vuex.Store({
           this.dispatch('setListQuestion')
           swal.close()
           swal.fire({
-            type: 'success',
+            icon: 'success',
             title: 'success creating question',
             showConfirmButton: false,
             timer: 2000
@@ -637,7 +653,7 @@ export default new Vuex.Store({
         .catch(err => {
           swal.close()
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Creating question Failed ',
             text: err.response.data,
             showConfirmButton: false,
@@ -647,7 +663,7 @@ export default new Vuex.Store({
     },
     setListQuestion ({ commit }) {
       swal.fire({
-        title: 'Fetching Data',
+        title: 'Loading Data',
         showConfirmButton: false,
         allowOutsideClick: () => swal.isLoading()
       })
@@ -663,7 +679,7 @@ export default new Vuex.Store({
         .catch(() => {
           swal.close()
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'Need to login first',
             timer: 2000,
             showConfirmButton: false
@@ -677,13 +693,15 @@ export default new Vuex.Store({
         allowOutsideClick: () => swal.isLoading()
       })
       commit('SIGNOUT', '')
+      localStorage.clear()
       swal.close()
       swal.fire({
-        type: 'success',
+        icon: 'success',
         title: 'SignOut success',
         showConfirmButton: false,
         timer: 2000
       })
+      router.push('/')
     },
     login ({ commit }, payload) {
       swal.fire({
@@ -705,26 +723,18 @@ export default new Vuex.Store({
           localStorage.setItem('_id', data._id)
           swal.close()
           swal.fire({
-            type: 'success',
+            icon: 'success',
             title: 'success to login',
             showConfirmButton: false,
             timer: 2000
           })
-          // var CronJob = cron.CronJob
-          // let temp = new CronJob('0 */5 * * * *', () => {
-          //   if (localStorage.getItem('token')) {
-          //     this.dispatch('signOut')
-          //   }
-          // }, null, true, 'Asia/Jakarta')
-          // CronJob()
           router.push('/question')
         })
-        .catch(err => {
+        .catch(() => {
           swal.close()
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'login Failed ',
-            text: err.response.data,
             showConfirmButton: false,
             timer: 2000
           })
@@ -749,18 +759,18 @@ export default new Vuex.Store({
           commit('REGISTER', data)
           swal.close()
           swal.fire({
-            type: 'success',
+            icon: 'success',
             title: 'success to register',
             showConfirmButton: false,
             timer: 2000
           })
         })
         .catch(err => {
+          console.log(err)
           swal.close()
           swal.fire({
-            type: 'error',
+            icon: 'error',
             title: 'REGISTER Failed ',
-            text: err.response.data,
             showConfirmButton: false,
             timer: 2000
           })

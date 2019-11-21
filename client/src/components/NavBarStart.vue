@@ -10,9 +10,9 @@
           </router-link>
         </div>
          <div class="clickable">
-            <router-link to="/" class="btn btn-primary">Home</router-link>
-            <router-link to="/register" class="btn btn-primary">Register</router-link>
-            <router-link to="/login" class="btn btn-primary" style="margin-left:10px; margin-right:30px;">Login</router-link>
+            <router-link to="/" class="btn btn-warning">Home</router-link>
+            <router-link to="/register" class="btn btn-warning">Register</router-link>
+            <router-link to="/login" class="btn btn-warning" style="margin-left:10px; margin-right:30px;">Login</router-link>
          </div>
       </nav>
   </div>

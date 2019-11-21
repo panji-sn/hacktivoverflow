@@ -151,21 +151,18 @@ class QuestionController {
 
     static findOne (req, res, next) {
         let { id } = req.params
-        console.log(id)
         let temp
         Question.findOne({
             _id: id
         })
         .populate('UserId')
         .then (result => {
-            console.log(result)
             temp = result
             return Answer.find({
                 QuestionId: id
             }).populate('UserId')
         })
         .then (result => {
-            console.log(temp.UserId.name)
             res.status(200).json({
                 _id: temp._id,
                 UserId: temp.UserId,
@@ -188,8 +185,31 @@ class QuestionController {
         })
         .populate('UserId')
         .then (result => {
-            console.log(result)
             res.status(200).json(result)
+        })
+        .catch (err => {
+            next(err)
+        })
+    }
+    
+    static filterTitle (req, res, next) {
+        let { title } = req.params
+        Question.find()
+        .populate('UserId')
+        .then (data => {
+            if (data.length > 0) {
+                let dataArr = []
+                for (let el in data) {
+                    if (data[el].title.includes(title)) {
+                        dataArr.push(data[el])
+                    }
+                }
+                res.status(200).json(dataArr)
+            } else {
+                let err = new Error ('Question User Masih Kosong')
+                err.name = 'DataError'
+                next(err)
+            }
         })
         .catch (err => {
             next(err)

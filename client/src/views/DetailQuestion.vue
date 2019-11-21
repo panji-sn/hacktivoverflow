@@ -1,15 +1,6 @@
 <template>
   <div>
-    <NavBar class="" style="width: 100%;">
-        <template v-slot:home>
-        <router-link to="/" class="btn btn-warning">Home</router-link>
-        </template>
-        <template v-slot:question>
-        <router-link to="/myQuestion" class="btn btn-warning">My Questions</router-link>
-        </template>
-        <template v-slot:signout>
-        <a href="#" class="btn btn-warning" @click.prevent="signOut" id="btn-left">SignOut</a>
-        </template>
+    <NavBar style="width: 100%;">
     </NavBar>
     <side-nav-bar></side-nav-bar>
     <div style="margin-left:17%; margin-right:5%;">
@@ -76,34 +67,46 @@
           </template>
           <template v-slot:answerList>
             <div v-for="(item, index) in question.hasil" v-bind:key="index">
-              <div class="col">
-                <h1>{{ item.title }}</h1>
-                <div style="align-items:center">
-                  <a @click.prevent="showUpdateAnswer(item._id, index)">
-                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <image xlink:href='https://www.flaticon.com/premium-icon/icons/svg/46/46395.svg' alt="symbol" height="40" width="40"/>
-                </svg>
-                </a>
-                <a @click.prevent="deleteAnswer(item._id)">
-                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <image xlink:href='https://image.flaticon.com/icons/png/512/61/61848.png' alt="symbol" height="40" width="40"/>
-                </svg>
-                </a>
-                <br>
-                <a class="" @click.prevent="upVotesAnswer(item._id)">
-                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <image xlink:href='https://image.flaticon.com/icons/svg/25/25649.svg' alt="symbol" height="40" width="40"/>
-                </svg>
-                </a>
-                <div class="col sm-1 ml-1">
-                  <h4>{{ item.upVotes.length - item.downVotes.length }}</h4>
-                  <h6>Votes</h6>
-                </div>
-                <a @click.prevent="downVotesAnswer(item._id)">
-                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <image xlink:href='https://image.flaticon.com/icons/svg/25/25623.svg' alt="symbol" height="40" width="40"/>
-                </svg>
-                </a>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-2">
+                    <div class="row">
+                      <a class="" @click.prevent="upVotesAnswer(item._id)">
+                      <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <image xlink:href='https://image.flaticon.com/icons/svg/25/25649.svg' alt="symbol" height="40" width="40"/>
+                      </svg>
+                      </a>
+                    </div>
+                    <div class="row">
+                      <div class="">
+                        <h4>{{ item.upVotes.length - item.downVotes.length }}</h4>
+                        <h6>Votes</h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <a @click.prevent="downVotesAnswer(item._id)">
+                      <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <image xlink:href='https://image.flaticon.com/icons/svg/25/25623.svg' alt="symbol" height="40" width="40"/>
+                      </svg>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-7">
+                    <h1>{{ item.title }}</h1>
+                    <div style="align-items:center">
+                      <a @click.prevent="showUpdateAnswer(item._id, index)">
+                    <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <image xlink:href='https://www.flaticon.com/premium-icon/icons/svg/46/46395.svg' alt="symbol" height="40" width="40"/>
+                    </svg>
+                    </a>
+                    <a @click.prevent="deleteAnswer(item._id)">
+                    <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <image xlink:href='https://image.flaticon.com/icons/png/512/61/61848.png' alt="symbol" height="40" width="40"/>
+                    </svg>
+                    </a>
+                    <br>
+                    </div>
+                  </div>
                 </div>
                 <p v-html="item.description"></p>
                 <h4>Answered by: {{ item.UserId.name }}</h4>

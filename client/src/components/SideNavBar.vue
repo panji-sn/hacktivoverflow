@@ -4,8 +4,10 @@
         <div id="mySidenav" class="sidenav">
             <a style="cursor:pointer;" href="#" @click='toPublic'>Public</a>
             <a style="cursor:pointer;" href="#" @click="toYourFeed">Your Question</a>
-            <a href="#">Clients</a>
-            <a href="#">Contact</a>
+            <form @submit.prevent="searchForm()" class="row mx-2">
+                    <input class="form-control" type="text" placeholder="Search" aria-label="Search" v-model="search">
+                    <input type="submit" class="btn btn-warning" value="Search">
+            </form>
             <a style="cursor:pointer;" href="#">Your Watch List</a>
             <div class="row mx-2">
                 <div v-for="(tag, index) in user.tags" :key="index">
@@ -14,7 +16,7 @@
                     <span type="button" class="close mr-1" style="border: none;border: none;" @click="deleteTag(tag)">&times;</span>
                 </div>
             </div>
-            <a style="cursor:pointer;" href="#"> Input Watched List</a>
+            <a style="cursor:pointer;" href="#"> Input Watch List</a>
             <vue-tags-input class="mx-2"
             v-model="tagInput"
             :tags="arrTag"
@@ -42,7 +44,8 @@ export default {
       tagInput: '',
       arrTag: [],
       autocompleteItems: [],
-      debounce: null
+      debounce: null,
+      search: ''
     }
   },
   watch: {
@@ -53,6 +56,10 @@ export default {
     ...mapActions(['getUser'])
   },
   methods: {
+    searchForm () {
+      this.$store.dispatch('searchForm', this.search)
+      this.search = ''
+    },
     toYourFeed () {
       router.push('/myQuestion')
     },
@@ -63,7 +70,6 @@ export default {
       this.$store.dispatch('deleteTag', input)
     },
     filterWatch (input) {
-      // console.log(input)
       this.$store.dispatch('filterWatch', input)
     },
     addWatch () {
@@ -86,8 +92,6 @@ export default {
             token: localStorage.getItem('token')
           }
         }).then(({ data }) => {
-          console.log(data)
-          //   this.autocompleteItems = data
           for (let i = 0; i < data.length; i++) {
             this.autocompleteItems.push(data[i].tag)
           }

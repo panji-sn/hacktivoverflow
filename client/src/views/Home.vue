@@ -1,35 +1,47 @@
 <template>
   <div>
     <nav-bar-start></nav-bar-start>
-    <div class="row">
       <div id="mySidenav" class="sidenav">
-      <a href="#">About</a>
-      <a href="#">Services</a>
-      <a href="#">Clients</a>
-      <a href="#">Contact</a>
-    </div>
-    <div class="container">
-    <List v-for="(item, index) in listQuestion" :key="index" class="card" id="questionList">
-      <template v-slot:totalVotes>
-        <div class="col sm-1 ml-1">
-          <h4>{{ item.upVotes.length - item.downVotes.length }}</h4>
-          <h6>Votes</h6>
+        <router-link to='/'>
+          <a style="cursor:pointer;" href="#">Home</a>
+        </router-link>
+        <router-link to='/register'>
+          <a style="cursor:pointer;" href="#">Register</a>
+        </router-link>
+        <router-link to='/login'>
+          <a style="cursor:pointer;" href="#">Login</a>
+        </router-link>
+      </div>
+    <div style="margin-left:17%; margin-right:5%;">
+        <div class="row">
+          <List v-for="(item, index) in listQuestion" :key="index" class="card" id="questionList">
+          <template v-slot:totalVotes>
+              <div class="col sm-1 ml-1">
+              <h4>{{ item.upVotes.length - item.downVotes.length }}</h4>
+              <h6>Votes</h6>
+              </div>
+          </template>
+          <template v-slot:totalAnswers>
+              <div class="col sm-1 ml-1">
+              <h4>{{ item.answer.length }}</h4>
+              <h6>Answers</h6>
+              </div>
+          </template>
+          <template v-slot:questionList>
+              <div class="col-12" id="QuestionCard">
+              <a href='#' @click.prevent="questionDetail(item._id)"
+              style="font-size:25px; color:#fec107;">{{ item.title }}</a>
+              <div class="row justify-content-center">
+                <div v-for="(tag, index) in item.tags" :key='index'>
+                  <button class="mx-2" style="background-color:#ebde6e; border:none;" @click="filterWatch(tag)">{{tag}}</button>
+                </div>
+              </div>
+              <p v-html="getDescription(index)"></p>
+              <p>Asked by : {{ item.UserId.name }}</p>
+              </div>
+          </template>
+          </List>
         </div>
-      </template>
-      <template v-slot:totalAnswers>
-        <div class="col sm-1 ml-1">
-          <h4>{{item.answer.length}}</h4>
-          <h6>Answers</h6>
-        </div>
-      </template>
-      <template v-slot:questionList>
-        <div>
-          <a href='#' @click.prevent="questionDetail(item._id)">{{ item.title }}</a>
-          <p v-html="getDescription(index)"></p>
-        </div>
-      </template>
-    </List>
-    </div>
     </div>
   </div>
 </template>
@@ -86,10 +98,9 @@ export default {
 /* The side navigation menu */
 .sidenav {
   height: 100%; /* 100% Full-height */
-  width: 150px; /* 0 width - change this with JavaScript */
+  width: 15%; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
-  top: 10; /* Stay at the top */
   left: 0;
   background-color: rgb(248, 248, 248); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
@@ -99,7 +110,7 @@ export default {
 
 /* The navigation menu links */
 .sidenav a {
-  padding: 8px 8px 8px 32px;
+  padding: 8px 8px 8px 8px;
   text-decoration: none;
   font-size: 25px;
   color: #818181;
@@ -115,10 +126,6 @@ export default {
 /* Position and style the close button (top right corner) */
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#main {
-  transition: margin-left .5s;
-  padding: 20px;
-}
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {

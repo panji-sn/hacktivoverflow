@@ -9,13 +9,10 @@
               <span style="color: white;">Hacktivoverflow</span>
           </router-link>
         </div>
-         <div class="clickable">
-             <slot name="home"></slot>
-             <slot name="login"></slot>
-             <slot name="register"></slot>
-             <slot name="question"></slot>
-             <slot name="answer"></slot>
-             <slot name="signout"></slot>
+         <div>
+            <router-link to="/" class="btn btn-warning">Home</router-link>
+            <router-link to="/myQuestion" class="btn btn-warning">My Questions</router-link>
+            <a href="#" class="btn btn-warning" @click.prevent="signOut" id="btn-left">SignOut</a>
          </div>
       </nav>
   </div>
@@ -23,7 +20,11 @@
 
 <script>
 export default {
-
+  methods: {
+    signOut () {
+      this.$store.dispatch('signOut')
+    }
+  }
 }
 </script>
 

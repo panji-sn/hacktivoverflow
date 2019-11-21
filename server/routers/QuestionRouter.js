@@ -12,5 +12,6 @@ routes.patch("/downvote", authentication, QuestionController.downVotes)
 routes.patch("/:id", authentication, authorization, QuestionController.updateQuestion)
 routes.delete("/:id", authentication, authorization, QuestionController.deleteQuestion)
 routes.get("/tag/:tag", QuestionController.filterWatch)
+routes.get("/title/:title", QuestionController.filterTitle)
 
 module.exports = routes

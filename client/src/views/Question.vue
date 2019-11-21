@@ -1,54 +1,38 @@
 <template>
   <div>
-    <NavBar style="width: 100%;">
-        <template v-slot:home>
-        <router-link to="/" class="btn btn-warning" @click.prevent="home">Home</router-link>
-        </template>
-        <template v-slot:question>
-        <router-link to="/myQuestion" class="btn btn-warning">My Questions</router-link>
-        </template>
-        <template v-slot:signout>
-        <a href="#" class="btn btn-warning" @click.prevent="signOut" id="btn-left">SignOut</a>
-        </template>
-    </NavBar>
+    <NavBar></NavBar>
     <side-nav-bar></side-nav-bar>
       <button @click.prevent="showQuestion" class="btn btn-warning">Ask Question !</button>
-    <div style="margin-left:17%; margin-right:5%;">
+     <div style="margin-left:17%; margin-right:5%;">
         <div class="row">
-        <List v-for="(item, index) in listQuestion" :key="index" class="card" id="questionList">
-        <template v-slot:totalVotes>
-            <div class="col sm-1 ml-1">
-            <h4>{{ item.upVotes.length - item.downVotes.length }}</h4>
-            <h6>Votes</h6>
-            </div>
-        </template>
-        <template v-slot:totalAnswers>
-            <div class="col sm-1 ml-1">
-            <h4>{{ item.answer.length }}</h4>
-            <h6>Answers</h6>
-            </div>
-        </template>
-        <!-- <template v-slot:totalViews>
-            <div class="col sm-1 ml-1">
-            <h4>0</h4>
-            <h6>Views</h6>
-            </div>
-        </template> -->
-        <template v-slot:questionList>
-            <div class="col-12" id="QuestionCard">
-            <a href='#' @click.prevent="questionDetail(item._id)"
-            style="font-size:25px; color:#fec107;">{{ item.title }}</a>
-            <div class="row justify-content-center">
-              <div v-for="(tag, index) in item.tags" :key='index'>
-                <button class="mx-2" style="background-color:#ebde6e; border:none;">{{tag}}</button>
+          <List v-for="(item, index) in listQuestion" :key="index" class="card" id="questionList">
+          <template v-slot:totalVotes>
+              <div class="col sm-1 ml-1">
+              <h4>{{ item.upVotes.length - item.downVotes.length }}</h4>
+              <h6>Votes</h6>
               </div>
-            </div>
-            <p v-html="getDescription(index)"></p>
-            <p>Asked by : {{ item.UserId.name }}</p>
-            </div>
-        </template>
-        </List>
-    </div>
+          </template>
+          <template v-slot:totalAnswers>
+              <div class="col sm-1 ml-1">
+              <h4>{{ item.answer.length }}</h4>
+              <h6>Answers</h6>
+              </div>
+          </template>
+          <template v-slot:questionList>
+              <div class="col-12" id="QuestionCard">
+              <a href='#' @click.prevent="questionDetail(item._id)"
+              style="font-size:25px; color:#fec107;">{{ item.title }}</a>
+              <div class="row justify-content-center">
+                <div v-for="(tag, index) in item.tags" :key='index'>
+                  <button class="mx-2" style="background-color:#ebde6e; border:none;" @click="filterWatch(tag)">{{tag}}</button>
+                </div>
+              </div>
+              <p v-html="getDescription(index)"></p>
+              <p>Asked by : {{ item.UserId.name }}</p>
+              </div>
+          </template>
+          </List>
+        </div>
     </div>
   </div>
 </template>
@@ -67,10 +51,6 @@ export default {
     SideNavBar
   },
   methods: {
-    signOut () {
-      localStorage.clear()
-      router.push('/')
-    },
     questionDetail (id) {
       this.$store.dispatch('questionDetail', id)
       router.push(`/question/${id}`)
@@ -85,6 +65,9 @@ export default {
     },
     showQuestion () {
       router.push('/createQuestion')
+    },
+    filterWatch (input) {
+      this.$store.dispatch('filterWatch', input)
     }
   },
   computed: {

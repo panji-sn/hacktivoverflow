@@ -1,16 +1,6 @@
 <template>
     <div>
-        <NavBar style="width: 100%;">
-            <template v-slot:home>
-            <router-link to="/" class="btn btn-warning" @click.prevent="home">Home</router-link>
-            </template>
-            <template v-slot:question>
-            <router-link to="/myQuestion" class="btn btn-warning">My Questions</router-link>
-            </template>
-            <template v-slot:signout>
-            <a href="#" class="btn btn-warning" @click.prevent="signOut" id="btn-left">SignOut</a>
-            </template>
-        </NavBar>
+        <NavBar></NavBar>
         <side-nav-bar></side-nav-bar>
       <div class="container" style="max-width: 60%; margin-top:20px;">
         <button type="button" class="close" @click="closeFormQuestion">&times;</button>
@@ -19,10 +9,6 @@
             <br>
             <input type="text" v-model="title" required placeholder="Input your title of question" class="form-control" width="50%;">
             <br>
-            <label>Description</label>
-            <br>
-            <ckeditor :editor="editor" v-model="editorData"></ckeditor>
-            <br>
             <label>Tags</label>
             <br>
             <vue-tags-input
@@ -30,6 +16,10 @@
                 :tags="tags"
                 @tags-changed="newTags => tags = newTags" :allow-edit-tags='true'
             />
+            <br>
+            <label>Description</label>
+            <br>
+            <ckeditor :editor="editor" v-model="editorData"></ckeditor>
             <br>
             <input type="submit" class="btn btn-warning" value="Create Question">
         </form>

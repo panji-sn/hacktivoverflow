@@ -1,16 +1,6 @@
 <template>
   <div>
-    <NavBar class="" style="width: 100%;">
-        <template v-slot:home>
-        <router-link to="/" class="btn btn-warning">Home</router-link>
-        </template>
-        <template v-slot:question>
-        <router-link to="/myQuestion" class="btn btn-warning">My Questions</router-link>
-        </template>
-        <template v-slot:signout>
-        <a href="#" class="btn btn-warning" @click.prevent="signOut" id="btn-left">SignOut</a>
-        </template>
-    </NavBar>
+    <NavBar></NavBar>
     <side-nav-bar></side-nav-bar>
     <div style="margin-left:17%; margin-right:5%;">
         <div class="row">
@@ -34,7 +24,7 @@
                         style="font-size:25px; color:#fec107;">{{ item.title }}</a>
                         <div class="row justify-content-center">
                         <div v-for="(tag, index) in item.tags" :key='index'>
-                            <button class="mx-2" style="background-color:#ebde6e; border:none;">{{tag}}</button>
+                            <button class="mx-2" style="background-color:#ebde6e; border:none;" @click='filterWatch(tag)'>{{tag}}</button>
                         </div>
                         </div>
                         <p v-html="getDescription(index)"></p>
@@ -68,9 +58,8 @@ export default {
     ...mapState(['watchTag'])
   },
   methods: {
-    signOut () {
-      localStorage.clear()
-      router.push('/')
+    filterWatch (input) {
+      this.$store.dispatch('filterWatch', input)
     },
     questionDetail (id) {
       this.$store.dispatch('questionDetail', id)
